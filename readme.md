@@ -51,5 +51,6 @@ Please execute the following MySQL query:
 insert into users (name, email, password) 
 values ('test', 'test@test.com', '$2y$10$R3LHeF6SA8x9RCYMlzkDOOj1pifjIQS/jab2M7t/kBe3W8X1MRGy2')
 
-
-
+### Vagrant
+The project includes a vagrant file for ubuntu/trusty64. Follow this to get php/nginx setup:
+https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04
