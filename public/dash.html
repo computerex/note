@@ -1,0 +1,19 @@
+<h3 class="center">Hi, {{$parent.user.name}}</h3>
+<a ng-click="postnote()" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+<div class="row" ng-repeat="note in $parent.notes">
+  <div class="col s12">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">{{note.title}}</span>
+        <input id="edittitle" placeholder="title" ng-show="note.editmode" type="text" ng-model="note.title" />
+        <strong class="timestamp">Created by {{$parent.user.name}} {{note.created_at | formatDate:'EEE h:mm'}}</strong>
+        <p ng-show="!note.editmode">{{note.desc}}</p>
+        <textarea placeholder="description" ng-show="note.editmode" ng-model="note.desc"></textarea>
+      </div>
+      <div class="card-action">
+        <a ng-click="$parent.editNote(note)" href="#">{{$parent.getNoteEditButtonText(note)}}</a>
+        <a ng-click="$parent.removeNote(note)" href="#">Remove</a>
+      </div>
+    </div>
+  </div>
+</div>
