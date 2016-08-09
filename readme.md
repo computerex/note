@@ -1,21 +1,55 @@
-## Lumen PHP Framework
+### Config
+All the project configurations are in the **.env** file. See below:
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+```
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=SomeRandomKey!!!
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=c1
+DB_USERNAME=root
+DB_PASSWORD=rootpass
 
-## Official Documentation
+CACHE_DRIVER=array
+QUEUE_DRIVER=array
+```
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+nginx host file:
+```
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
 
-## Security Vulnerabilities
+    root /vagrant/note/public;
+    index index.php index.html index.htm;
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+    server_name 192.168.0.105;
 
-### License
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+Once the database is setup, execute
+
+**php artisan migrate**
+
+### Test account setup
+Please execute the following MySQL query: 
+insert into users (name, email, password) 
+values ('test', 'test@test.com', '$2y$10$R3LHeF6SA8x9RCYMlzkDOOj1pifjIQS/jab2M7t/kBe3W8X1MRGy2')
+
+
+

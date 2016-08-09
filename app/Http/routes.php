@@ -60,7 +60,9 @@ $app->put('/api/note', ['middleware' => ['mw.auth'], function(Request $request) 
 
 $app->delete('/api/note', ['middleware' => ['mw.auth'], function(Request $request) use ($app) {
   $note= \App\Note::find($request->input('id'));
-  if($note)
+  if($note) {
     $note->delete();
-  return response()->json([], 204);
+    return response()->json([], 204);
+  }
+  return response()->json([], 404);
 }]);

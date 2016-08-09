@@ -31,6 +31,19 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> 
       <script>
         var app = angular.module('notes', []);
+        app.directive('ngEnter', function() {
+                return function(scope, element, attrs) {
+                    element.bind("keydown keypress", function(event) {
+                        if(event.which === 13) {
+                                scope.$apply(function(){
+                                        scope.$eval(attrs.ngEnter);
+                                });
+                                
+                                event.preventDefault();
+                        }
+                    });
+                };
+        });
         app.filter('formatDate', function() {
           return function(dateString) {
               return moment(new Date(dateString)).format('ddd hh:mm');
